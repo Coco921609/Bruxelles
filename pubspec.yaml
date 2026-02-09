@@ -1,0 +1,42 @@
+name: bruxelles
+description: "Application Guide de Voyage Bruxelles"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Persistance des données (Thème, préférences)
+  shared_preferences: ^2.2.2
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  # Outil pour générer les icônes d'application
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/bruxelles.png" # <--- Modifié ici
+  web:
+    generate: true
+    image_path: "assets/bruxelles.png" # <--- Modifié ici
+    background_color: "#161616"
+    theme_color: "#D4AF37"
+  windows:
+    generate: true
+    image_path: "assets/bruxelles.png" # <--- Modifié ici
+
+flutter:
+  uses-material-design: true
+
+  # Déclaration des dossiers de ressources
+  assets:
+    - assets/

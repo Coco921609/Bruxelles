@@ -8,10 +8,8 @@ import 'transports_page.dart';
 import 'settings_page.dart';
 
 void main() async {
-  // 1. Indispensable pour interagir avec le moteur Flutter avant runApp
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 2. Bloquer l'orientation en mode portrait uniquement
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -37,11 +35,9 @@ class _BruxellesAppState extends State<BruxellesApp> {
     _loadInitialConfig();
   }
 
-  // CHARGEMENT DE LA CONFIGURATION (Thème + Premier Lancement)
   Future<void> _loadInitialConfig() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // 1. Charger le thème sauvegardé
     final String? savedTheme = prefs.getString('themeMode');
     if (savedTheme != null) {
       setState(() {
@@ -49,7 +45,6 @@ class _BruxellesAppState extends State<BruxellesApp> {
       });
     }
 
-    // 2. Vérifier si c'est le premier lancement
     final bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
     if (isFirstLaunch) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -58,7 +53,6 @@ class _BruxellesAppState extends State<BruxellesApp> {
     }
   }
 
-  // FONCTION POUR CHANGER ET SAUVEGARDER LE THÈME
   void _toggleTheme(ThemeMode mode) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -67,7 +61,6 @@ class _BruxellesAppState extends State<BruxellesApp> {
     await prefs.setString('themeMode', mode == ThemeMode.dark ? 'dark' : 'light');
   }
 
-  // FENÊTRE DE BIENVENUE (S'affiche une seule fois)
   void _showThemeSelectionDialog(SharedPreferences prefs) {
     if (navigatorKey.currentContext == null) return;
 
@@ -148,100 +141,116 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('🇧🇪 Bruxelles',
-            style: TextStyle(fontWeight: FontWeight.w900)),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.tune),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SettingsPage(
-                  currentThemeMode: currentThemeMode,
-                  onThemeChanged: onThemeChanged,
+    // PopScope empêche la fermeture accidentelle de l'application
+    return PopScope(
+      canPop: false, // On désactive la fermeture par défaut
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        // Si le navigateur peut reculer (page précédente existe), on recule
+        final NavigatorState navigator = Navigator.of(context);
+        if (navigator.canPop()) {
+          navigator.pop();
+        } else {
+          // Sinon, on autorise la fermeture de l'application via le système
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('🇧🇪 Bruxelles',
+              style: TextStyle(fontWeight: FontWeight.w900)),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.tune),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsPage(
+                    currentThemeMode: currentThemeMode,
+                    onThemeChanged: onThemeChanged,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                "Que faire aujourd'hui ?",
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDark ? Colors.white : const Color(0xFF1A1A1A),
-                                )
-                            ),
-                            const SizedBox(height: 5),
-                            const Text("Découvrez la capitale à votre rythme.",
-                                style: TextStyle(color: Colors.grey)),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        _buildModernRow(
-                            context,
-                            "Semaine",
-                            "Parcourez les galeries couvertes, les quartiers historiques et profitez du calme des parcs bruxellois durant les jours ouvrables.",
-                            Icons.calendar_today,
-                            const Color(0xFFFFE082),
-                            const SemainePage(),
-                            isDark
-                        ),
-                        _buildDivider(isDark),
-                        _buildModernRow(
-                            context,
-                            "Week-end",
-                            "Vibrant et animé : découvrez les marchés locaux, les événements populaires et la vie nocturne unique du centre-ville.",
-                            Icons.auto_awesome,
-                            const Color(0xFFFFAB91),
-                            const WeekendPage(),
-                            isDark
-                        ),
-                        _buildDivider(isDark),
-                        _buildModernRow(
-                            context,
-                            "Spécialités",
-                            "Gaufres, chocolats, bières et frites : plongez dans le patrimoine culinaire qui fait la renommée mondiale de la Belgique.",
-                            Icons.restaurant,
-                            const Color(0xFFA5D6A7),
-                            const SpecialitesPage(),
-                            isDark
-                        ),
-                        _buildDivider(isDark),
-                        _buildModernRow(
-                            context,
-                            "Transports",
-                            "Guide pratique pour circuler facilement avec le métro, le tram ou le bus via le réseau STIB et les trains SNCB.",
-                            Icons.train,
-                            const Color(0xFF90CAF9),
-                            const TransportsPage(),
-                            isDark
-                        ),
-                        const SizedBox(height: 20),
-                      ],
+          ],
+        ),
+        body: SafeArea(
+          child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  "Que faire aujourd'hui ?",
+                                  style: TextStyle(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDark ? Colors.white : const Color(0xFF1A1A1A),
+                                  )
+                              ),
+                              const SizedBox(height: 5),
+                              const Text("Découvrez la capitale à votre rythme.",
+                                  style: TextStyle(color: Colors.grey)),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          _buildModernRow(
+                              context,
+                              "Semaine",
+                              "Parcourez les galeries couvertes, les quartiers historiques et profitez du calme des parcs bruxellois durant les jours ouvrables.",
+                              Icons.calendar_today,
+                              const Color(0xFFFFE082),
+                              const SemainePage(),
+                              isDark
+                          ),
+                          _buildDivider(isDark),
+                          _buildModernRow(
+                              context,
+                              "Week-end",
+                              "Vibrant et animé : découvrez les marchés locaux, les événements populaires et la vie nocturne unique du centre-ville.",
+                              Icons.auto_awesome,
+                              const Color(0xFFFFAB91),
+                              const WeekendPage(),
+                              isDark
+                          ),
+                          _buildDivider(isDark),
+                          _buildModernRow(
+                              context,
+                              "Spécialités",
+                              "Gaufres, chocolats, bières et frites : plongez dans le patrimoine culinaire qui fait la renommée mondiale de la Belgique.",
+                              Icons.restaurant,
+                              const Color(0xFFA5D6A7),
+                              const SpecialitesPage(),
+                              isDark
+                          ),
+                          _buildDivider(isDark),
+                          _buildModernRow(
+                              context,
+                              "Transports",
+                              "Guide pratique pour circuler facilement avec le métro, le tram ou le bus via le réseau STIB et les trains SNCB.",
+                              Icons.train,
+                              const Color(0xFF90CAF9),
+                              const TransportsPage(),
+                              isDark
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            }
+                );
+              }
+          ),
         ),
       ),
     );
@@ -252,8 +261,10 @@ class HomePage extends StatelessWidget {
       context,
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => destination,
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
+        transitionDuration: const Duration(milliseconds: 300), // Ajout d'une légère animation pour fluidité
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
       ),
     );
   }

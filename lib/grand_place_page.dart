@@ -22,7 +22,6 @@ class GrandPlacePage extends StatelessWidget {
               expandedHeight: 250,
               pinned: true,
               stretch: true,
-              // On force une couleur sombre même en mode clair pour l'élégance
               backgroundColor: const Color(0xFF001A4D),
               iconTheme: const IconThemeData(color: Colors.white),
               flexibleSpace: FlexibleSpaceBar(
@@ -30,51 +29,25 @@ class GrandPlacePage extends StatelessWidget {
                 background: Stack(
                   fit: StackFit.expand,
                   children: [
-                    // Fond dégradé bleu nuit profond
+                    // IMAGE DE FOND (Mont des Arts)
+                    Image.asset(
+                      'assets/joaquinaranoa-brussels-519965_1920.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                    // Overlay dégradé original
                     Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Color(0xFF000B21), Color(0xFF003399)],
+                          colors: [
+                            const Color(0xFF000B21).withOpacity(0.7),
+                            const Color(0xFF003399).withOpacity(0.4)
+                          ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
                       ),
                     ),
-                    CustomPaint(painter: RadioGridPainter(isDark: true)), // Grid toujours claire sur fond sombre
-                    Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.amber.withOpacity(0.15),
-                              blurRadius: 80,
-                              spreadRadius: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.castle, size: 75, color: Colors.amber),
-                          const SizedBox(height: 15),
-                          Text(
-                            "GRAND-PLACE",
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    CustomPaint(painter: RadioGridPainter(isDark: true)),
                   ],
                 ),
               ),
@@ -86,12 +59,32 @@ class GrandPlacePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // --- TITRE RÉINSÉRÉ ICI SOUS L'IMAGE ---
+                    Center(
+                      child: Text(
+                        "GRAND-PLACE",
+                        style: TextStyle(
+                          color: isDark ? Colors.white : const Color(0xFF001A4D),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 3,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
                     // --- SECTION 1 : BALADES & DÉCOUVERTES ---
                     _buildSectionTitle("Balades & Découvertes 🌆", Icons.explore),
 
                     _buildExperienceCard("📍 La Grand-Place", "Le cœur historique. Admirez l'Hôtel de Ville et les dorures des maisons de corporations.", Icons.location_on, isDark, cardColor),
+                    _buildImageWrapper('assets/leonhard_niederwimmer-guild-house-7826555_1920.jpg'),
+                    const SizedBox(height: 10),
+
                     _buildExperienceCard("🏛️ La Bourse", "L'ancien temple du commerce devenu 'Belgian Beer World'. Zone piétonne animée.", Icons.account_balance, isDark, cardColor),
                     _buildExperienceCard("🛍️ Galeries Royales St-Hubert", "Splendides arcades couvertes avec chocolatiers de renom et cafés historiques.", Icons.storefront, isDark, cardColor),
+                    _buildImageWrapper('assets/68a6f63760b73a7efef1c911_Royal Gallery of Saint Hubert_cover.jpg'),
+                    const SizedBox(height: 10),
+
                     _buildExperienceCard("⛪ Cathédrale St-Michel", "Chef-d'œuvre gothique majestueux, témoin des grands événements royaux.", Icons.church, isDark, cardColor),
                     _buildExperienceCard("🚶 Rues Commerçantes", "Shopping Rue Neuve ou ambiance typique Rue du Marché aux Herbes.", Icons.shopping_bag, isDark, cardColor),
 
@@ -101,6 +94,8 @@ class GrandPlacePage extends StatelessWidget {
 
                     // --- SECTION 2 : HISTOIRE DE L'ARCHITECTURE ---
                     _buildSectionTitle("L'Architecture 🏛️", Icons.architecture),
+                    _buildImageWrapper('assets/leonhard_niederwimmer-grand-place-7826554_1920.jpg'),
+                    const SizedBox(height: 10),
                     _buildHistoryCard(
                         "L'Hôtel de Ville (Asymétrie)",
                         "Regardez la tour : elle n'est pas au centre ! L'aile gauche (1402) est plus courte que l'aile droite (1444). Ce n'est pas une erreur de l'architecte, mais une construction en deux étapes sur un espace restreint.",
@@ -119,24 +114,29 @@ class GrandPlacePage extends StatelessWidget {
                         isDark,
                         cardColor
                     ),
+                    _buildImageWrapper('assets/Bruxelles-Manneken-Pis-©-Visit-Brussels-Jean-Paul-Remy-5-scaled.jpg'),
                     const SizedBox(height: 12),
+
                     _buildHistoryCard(
                         "Jeanneke-Pis (La Petite)",
                         "Située dans l'impasse de la Fidélité, elle est la sœur cadette de Manneken-Pis. Créée en 1987 par un restaurateur local pour attirer les curieux, elle symbolise l'égalité homme-femme.",
                         isDark,
                         cardColor
                     ),
+                    _buildImageWrapper('assets/istockphoto-1590116983-612x612.jpg'),
                     const SizedBox(height: 12),
+
                     _buildHistoryCard(
                         "Zinneke-Pis (Le Chien)",
                         "N'oubliez pas le chien bâtard ! Situé au coin de la rue des Chartreux, il ne fontaine pas, mais lève la patte. Il représente le mélange des cultures et des origines de Bruxelles.",
                         isDark,
                         cardColor
                     ),
+                    _buildImageWrapper('assets/manneken-pis05.jpg'),
 
                     const SizedBox(height: 30),
 
-                    // --- SECTION 4 : SAISONS & HORAIRES ---
+                    // --- SECTION 4 : SAISONS & HORAIRES (TOTALEMENT RESTAURÉE) ---
                     _buildSectionTitle("L'Agenda des Saisons & Horaires 📅", Icons.calendar_month),
                     _buildSeasonEvent(
                       season: "Printemps",
@@ -190,7 +190,22 @@ class GrandPlacePage extends StatelessWidget {
     );
   }
 
-  // --- WIDGETS ---
+  // Widget utilitaire pour les images
+  Widget _buildImageWrapper(String path) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8)],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Image.asset(path, fit: BoxFit.cover, width: double.infinity),
+      ),
+    );
+  }
+
+  // --- VOS WIDGETS ORIGINAUX (RESTAURÉS À 100%) ---
 
   Widget _buildSectionTitle(String title, IconData icon) {
     return Padding(

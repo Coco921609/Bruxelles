@@ -14,7 +14,6 @@ class LaekenPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor,
-      // AppBar sombre fixe pour l'élégance royale
       appBar: AppBar(
         title: const Text("Laeken : Guide Royal Complet"),
         backgroundColor: const Color(0xFF0F0F0F),
@@ -27,7 +26,6 @@ class LaekenPage extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      // Active la sélection, la copie et la recherche web
       body: SelectionArea(
         child: SingleChildScrollView(
           child: Column(
@@ -41,6 +39,10 @@ class LaekenPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // ================= 1. L'IMAGE DU HAUT =================
+                    _buildImageCard('assets/16-Parc-de-Laeken-Royal-Parc-Tempat-Wisata-Favorit-dan-Terkenal-di-Brussel-930x620.jpg', "Le Domaine Royal de Laeken"),
+                    const SizedBox(height: 10),
+
                     // ================= SECTION ACCÈS ET SAISONS =================
                     _buildSectionHeader("ACCÈS & SAISONS", Colors.green.shade700),
                     const SizedBox(height: 15),
@@ -124,19 +126,62 @@ class LaekenPage extends StatelessWidget {
                       cardColor,
                     ),
 
-                    const SizedBox(height: 40),
-
+                    const SizedBox(height: 30),
                     _buildQuickTip("CONSEIL : Prévoyez 1h30 pour faire le tour complet à pied sans vous presser.", isDark),
                     const SizedBox(height: 15),
                     _buildQuickTip("PHOTO : Les monuments sont plus beaux avec la lumière rasante de 17h00.", isDark),
                     const SizedBox(height: 15),
                     _buildPriceWarning("Accès au parc : Gratuit. Monuments : Visite visuelle uniquement.", isDark),
+
                     const SizedBox(height: 40),
+
+                    // ================= SECTION GALERIE PHOTO (ORDRE CORRIGÉ) =================
+                    _buildSectionHeader("GALERIE DU DOMAINE", Colors.amber.shade800),
+                    const SizedBox(height: 20),
+
+                    _buildImageCard('assets/laeken-park-brussels1-e1682966193238.jpg', "Le Château au printemps"),
+                    _buildImageCard('assets/4408176583_1ebfd3938a.jpg', "Architecture des Serres"),
+                    _buildImageCard('assets/1280px-La_tour_japonaise_a_Laeken.jpg', "La Tour Japonaise"),
+                    _buildImageCard('assets/jardin-hiver-serres-royales-Laeken-bruxelles-mylittleroad-1170x781.jpg', "Intérieur du Jardin d'Hiver"),
+
+                    const SizedBox(height: 50),
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // --- WIDGET POUR LES IMAGES ---
+  Widget _buildImageCard(String assetPath, String label) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4))],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            Image.asset(assetPath, width: double.infinity, height: 200, fit: BoxFit.cover),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                ),
+              ),
+              child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+            ),
+          ],
         ),
       ),
     );
@@ -155,7 +200,7 @@ class LaekenPage extends StatelessWidget {
           bottomRight: Radius.circular(40),
         ),
         gradient: LinearGradient(
-          colors: [Color(0xFF0F0F0F), Color(0xFF1B5E20)], // Noir vers Vert Royal
+          colors: [Color(0xFF0F0F0F), Color(0xFF1B5E20)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -191,7 +236,6 @@ class LaekenPage extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: color),
-            // Correction ici : suppression de l'ellipsis pour éviter le "Laek..."
           ),
         ),
         const SizedBox(width: 10),

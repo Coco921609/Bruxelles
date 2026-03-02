@@ -19,6 +19,11 @@ class ParcLeopoldPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // --- IMAGE D'ENTRÉE (PAYSAGE GLOBAL) ---
+              // Cette image panoramique illustre parfaitement l'union entre le parc et le quartier européen
+              _buildSectionImage('assets/Quartier_Européen,_Bruxelles,_Belgium_-_panoramio_(8).jpg'),
+              const SizedBox(height: 20),
+
               // --- SECTION DÉTENTE & REPAS ---
               _buildSectionHeader("Détente & Lunch 🥪", Icons.restaurant),
               Text(
@@ -31,6 +36,9 @@ class ParcLeopoldPage extends StatelessWidget {
                     color: isDark ? Colors.white70 : const Color(0xFF444444)
                 ),
               ),
+              const SizedBox(height: 15),
+              // Image de l'étang et de la détente
+              _buildSectionImage('assets/photo9jpg.jpg'),
 
               const SizedBox(height: 30),
 
@@ -47,6 +55,20 @@ class ParcLeopoldPage extends StatelessWidget {
                     color: isDark ? Colors.white70 : const Color(0xFF444444)
                 ),
               ),
+              const SizedBox(height: 15),
+              // Image du segment du mur
+              _buildSectionImage('assets/photo0jpg.jpg'),
+
+              const SizedBox(height: 30),
+
+              // --- SECTION ARCHITECTURE & INSTITUTIONS ---
+              _buildSectionHeader("Cadre Institutionnel 🏛️", Icons.business),
+              const Text(
+                "Le parc est entouré de bâtiments prestigieux, offrant un mélange unique entre nature et modernité vitrée.",
+                style: TextStyle(fontSize: 15, color: Colors.grey),
+              ),
+              const SizedBox(height: 15),
+              _buildSectionImage('assets/photo3jpg.jpg'),
 
               const SizedBox(height: 30),
 
@@ -94,13 +116,12 @@ class ParcLeopoldPage extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              // --- PARCOURS EXPRESS (TON ORDRE) ---
+              // --- PARCOURS EXPRESS ---
               _buildSectionHeader("Parcours Express 🗺️", Icons.route),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  // Blanc pur en clair, Gris anthracite en sombre
                   color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.05)),
@@ -146,6 +167,22 @@ class ParcLeopoldPage extends StatelessWidget {
 
   // --- WIDGETS DE DESIGN ---
 
+  Widget _buildSectionImage(String path) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15),
+      child: Image.asset(
+        path,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        errorBuilder: (context, error, stackTrace) => Container(
+          height: 150,
+          color: Colors.grey[300],
+          child: const Icon(Icons.broken_image, color: Colors.grey),
+        ),
+      ),
+    );
+  }
+
   Widget _buildSectionHeader(String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -173,7 +210,6 @@ class ParcLeopoldPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        // Cartes blanches en mode clair
         color: isDark ? const Color(0xFF252525) : Colors.white,
         borderRadius: BorderRadius.circular(15),
         border: Border.all(color: color.withOpacity(0.2)),

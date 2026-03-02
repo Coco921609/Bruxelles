@@ -1,5 +1,5 @@
 name: bruxelles
-description: "Application Guide de Voyage Bruxelles"
+description: "Application Guide de Voyage Bruxelles - Edition 2026"
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -10,33 +10,43 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # Persistance des données (Thème, préférences)
+
+  # --- PERSISTANCE & PRÉFÉRENCES ---
   shared_preferences: ^2.2.2
+
+  # --- UI & ICÔNES ---
   cupertino_icons: ^1.0.6
+
+  # --- GESTION DES DATES & LOCALISATION ---
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  # Outil pour générer les icônes d'application
+
+  # --- GÉNÉRATEUR D'ICÔNES ---
   flutter_launcher_icons: ^0.13.1
 
+# Configuration des icônes d'application
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/bruxelles.png" # <--- Modifié ici
+  image_path: "assets/bruxelles.png"
   web:
     generate: true
-    image_path: "assets/bruxelles.png" # <--- Modifié ici
+    image_path: "assets/bruxelles.png"
     background_color: "#161616"
     theme_color: "#D4AF37"
   windows:
     generate: true
-    image_path: "assets/bruxelles.png" # <--- Modifié ici
+    image_path: "assets/bruxelles.png"
 
 flutter:
   uses-material-design: true
 
-  # Déclaration des dossiers de ressources
+  # --- GESTION DES ASSETS ---
   assets:
+    # Déclarer le dossier parent suffit pour inclure tout son contenu récursivement.
+    # Cela évite d'avoir à lister chaque image une par une.
     - assets/

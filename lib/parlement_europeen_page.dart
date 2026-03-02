@@ -85,6 +85,10 @@ class ParlementEuropeenPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
+                  // --- IMAGE 1 : PANORAMA EXTERIEUR ---
+                  _buildImageWrapper('assets/Europaeisches-Parlament-Bruessel.jpg'),
+                  const SizedBox(height: 25),
+
                   // --- ton argument ---
                   _buildPrestigeHero(isDark),
 
@@ -136,6 +140,9 @@ class ParlementEuropeenPage extends StatelessWidget {
                       const Color(0xFF0055FF),
                       isDark
                   ),
+                  // --- IMAGE 2 : PARLAMENTARIUM ---
+                  _buildImageWrapper('assets/large-1920px.jpeg'),
+                  const SizedBox(height: 15),
                   _buildOfficialTable("horaires d'ouverture", [
                     ["Lundi", "13h00 − 18h00"],
                     ["Mardi à Vendredi", "09h00 − 18h00"],
@@ -152,6 +159,9 @@ class ParlementEuropeenPage extends StatelessWidget {
                       const Color(0xFFFFC107),
                       isDark
                   ),
+                  // --- IMAGE 3 : HEMICYCLE ---
+                  _buildImageWrapper('assets/medium-1280px.jpeg'),
+                  const SizedBox(height: 15),
                   _buildOfficialTable("sessions au public", [
                     ["Guide multimédia (Lun-Jeu)", "09h00 − 16h30"],
                     ["Guide multimédia (Ven)", "09h00 − 12h30"],
@@ -162,11 +172,17 @@ class ParlementEuropeenPage extends StatelessWidget {
 
                   // --- NOUVELLE SECTION HISTORIQUE ---
                   _buildInstitutionalTitle("histoire & géopolitique", "pourquoi bruxelles ?", isDark),
+                  // --- IMAGE 4 : CONTEXTE HISTORIQUE ---
+                  _buildImageWrapper('assets/parliament-704254_960_720.jpg'),
+                  const SizedBox(height: 20),
                   _buildHistoryPoint(
                       "Pourquoi pas Paris ?",
                       "Après 1945, choisir Paris aurait donné une image de domination française sur l'Europe. Bruxelles a été choisie comme terrain neutre entre la France et l'Allemagne.",
                       isDark
                   ),
+                  // --- IMAGE 5 : ARCHITECTURE GEOPOLITIQUE ---
+                  _buildImageWrapper('assets/parlement-européen-bruxelles-4-768x576.jpg'),
+                  const SizedBox(height: 15),
                   _buildHistoryPoint(
                       "L'échec de Chantilly",
                       "Bien que prestigieuse, Chantilly n'avait pas les infrastructures ferroviaires et hôtelières pour accueillir des milliers de diplomates. Bruxelles était déjà un carrefour européen majeur.",
@@ -181,7 +197,14 @@ class ParlementEuropeenPage extends StatelessWidget {
                   const SizedBox(height: 40),
 
                   _buildInstitutionalTitle("réservation", "conditions d'accès", isDark),
+                  // --- IMAGE 6 : ACCES ET BORNES ---
+                  _buildImageWrapper('assets/20180207_112842.jpg'),
+                  const SizedBox(height: 20),
                   _buildBookingSummary(isDark),
+
+                  const SizedBox(height: 40),
+                  // --- IMAGE 7 : CONCLUSION VISUELLE ---
+                  _buildImageWrapper('assets/f1c31d9e061ee9a1e7395f690ecd5937.jpg'),
 
                   const SizedBox(height: 80),
                 ]),
@@ -194,6 +217,23 @@ class ParlementEuropeenPage extends StatelessWidget {
   }
 
   // --- widgets ---
+
+  // Nouveau widget pour l'affichage propre des images sans altérer le style
+  Widget _buildImageWrapper(String path) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(2), // Design angulaire pour rester "institutionnel"
+      child: Image.asset(
+        path,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        errorBuilder: (context, error, stackTrace) => Container(
+          height: 150,
+          color: Colors.grey[300],
+          child: const Icon(Icons.broken_image, color: Colors.grey),
+        ),
+      ),
+    );
+  }
 
   Widget _buildHistoryPoint(String title, String desc, bool isDark) {
     return Padding(

@@ -19,6 +19,18 @@ class CinquantenairePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // --- PREMIÈRE IMAGE (PRINTEMPS) ---
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  'assets/58ec86aea4a3352609339c3ab71d214ef94eb3e0.png',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 200, // Hauteur ajustable selon tes besoins
+                ),
+              ),
+              const SizedBox(height: 20),
+
               // --- DESCRIPTION DÉTAILLÉE ---
               _buildSectionTitle("L'Histoire du Lieu", Icons.history_edu),
               Text(
@@ -29,8 +41,7 @@ class CinquantenairePage extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 15,
                     height: 1.5,
-                    color: isDark ? Colors.white70 : const Color(0xFF444444)
-                ),
+                    color: isDark ? Colors.white70 : const Color(0xFF444444)),
               ),
 
               const SizedBox(height: 25),
@@ -42,9 +53,11 @@ class CinquantenairePage extends StatelessWidget {
                 border: TableBorder.all(
                     color: isDark ? Colors.white10 : Colors.black12,
                     width: 1,
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                columnWidths: const {0: FlexColumnWidth(1.2), 1: FlexColumnWidth(2)},
+                    borderRadius: BorderRadius.circular(10)),
+                columnWidths: const {
+                  0: FlexColumnWidth(1.2),
+                  1: FlexColumnWidth(2)
+                },
                 children: [
                   _buildTableRow("Saisons Top", "Printemps (avril) & Automne (octobre)", Colors.greenAccent, isDark),
                   _buildTableRow("À Éviter (Hiver)", "Très venteux, froid humide, ciel gris plat", Colors.blueAccent, isDark),
@@ -62,8 +75,7 @@ class CinquantenairePage extends StatelessWidget {
                 border: TableBorder.all(
                     color: isDark ? Colors.white10 : Colors.black12,
                     width: 1,
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 children: [
                   _buildTableRow("Printemps", "18h30-20h : Fleurs roses et lumière douce", Colors.pinkAccent, isDark),
                   _buildTableRow("Été", "07h00 (Seul au monde) ou 21h (Heure bleue)", Colors.lightBlueAccent, isDark),
@@ -74,18 +86,34 @@ class CinquantenairePage extends StatelessWidget {
 
               const SizedBox(height: 35),
 
+              // --- DEUXIÈME IMAGE (AUTOMNE) ---
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  'assets/Bruxelles-Mobile2.jpg',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 200,
+                ),
+              ),
+              const SizedBox(height: 25),
+
               // --- ITINÉRAIRE PRÉCIS ET DÉTAILLÉ ---
               _buildSectionTitle("Itinéraire à Pied 🚶‍♂️", Icons.map),
               const SizedBox(height: 15),
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  // Blanc pur en mode clair, gris foncé en mode sombre
                   color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.amber.withOpacity(0.2)),
-                  boxShadow: isDark ? [] : [
-                    BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))
+                  boxShadow: isDark
+                      ? []
+                      : [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4))
                   ],
                 ),
                 child: Column(
@@ -96,10 +124,10 @@ class CinquantenairePage extends StatelessWidget {
                     _buildWalkingTime("10 min à pied"),
                     _buildMapStep("Parc Léopold", "Parlement Européen & Étangs.", Icons.park, Colors.green, isDark),
                     // Détail Mur de Berlin
-                    Padding(
-                      padding: const EdgeInsets.only(left: 45, top: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 45, top: 8),
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.subdirectory_arrow_right, color: Colors.grey, size: 20),
                           SizedBox(width: 10),
                           Expanded(
@@ -122,8 +150,7 @@ class CinquantenairePage extends StatelessWidget {
                   "DÉTAIL ÉTÉ : Entre 12h et 14h, la place réfléchit toute la chaleur du soleil. "
                       "C'est une fournaise sans aucun coin d'ombre sur l'esplanade centrale. "
                       "Portez une casquette et prévoyez de l'eau si vous traversez à cette heure-là.",
-                  isDark
-              ),
+                  isDark),
               const SizedBox(height: 20),
             ],
           ),
@@ -156,13 +183,7 @@ class CinquantenairePage extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Text(
-              value,
-              style: TextStyle(
-                  fontSize: 14,
-                  color: isDark ? Colors.white : const Color(0xFF333333)
-              )
-          ),
+          child: Text(value, style: TextStyle(fontSize: 14, color: isDark ? Colors.white : const Color(0xFF333333))),
         ),
       ],
     );
@@ -177,14 +198,7 @@ class CinquantenairePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? Colors.white : const Color(0xFF1A1A1A)
-                  )
-              ),
+              Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: isDark ? Colors.white : const Color(0xFF1A1A1A))),
               Text(subtitle, style: const TextStyle(fontSize: 12, color: Colors.grey)),
             ],
           ),
@@ -221,16 +235,7 @@ class CinquantenairePage extends StatelessWidget {
         children: [
           const Icon(Icons.warning_amber_rounded, color: Colors.redAccent),
           const SizedBox(width: 15),
-          Expanded(
-              child: Text(
-                  text,
-                  style: TextStyle(
-                      fontSize: 13,
-                      height: 1.4,
-                      color: isDark ? Colors.white : const Color(0xFF442222)
-                  )
-              )
-          ),
+          Expanded(child: Text(text, style: TextStyle(fontSize: 13, height: 1.4, color: isDark ? Colors.white : const Color(0xFF442222)))),
         ],
       ),
     );

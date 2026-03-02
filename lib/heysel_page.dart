@@ -14,7 +14,6 @@ class HeyselPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor,
-      // AppBar sombre fixe pour un look premium
       appBar: AppBar(
         title: const Text("Heysel : Guide Complet"),
         backgroundColor: const Color(0xFF0F0F0F),
@@ -27,7 +26,6 @@ class HeyselPage extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      // SelectionArea permet la copie et la recherche internet sur tout le texte
       body: SelectionArea(
         child: SingleChildScrollView(
           child: Column(
@@ -43,6 +41,13 @@ class HeyselPage extends StatelessWidget {
                   children: [
                     // ================= SECTION MINI-EUROPE =================
                     _buildSectionHeader("1. MINI-EUROPE", Colors.blueAccent),
+
+                    // --- IMAGES MINI-EUROPE AJOUTÉES ---
+                    _buildImageCard('assets/dimitrisvetsikas1969-mini-europe-3766226_1920.jpg', "Vue d'ensemble Mini-Europe"),
+                    _buildImageCard('assets/04.jpg', "Détails des maquettes"),
+                    _buildImageCard('assets/bici-brussels-2261415_1920.jpg', "L'Europe en miniature"),
+                    const SizedBox(height: 10),
+
                     _buildHistoryBox(
                       "HISTOIRE : Inauguré en 1989, ce parc unique regroupe 350 maquettes des plus beaux monuments européens. C'est un travail colossal de précision à l'échelle 1/25, symbolisant l'union des cultures.",
                       Colors.blueAccent,
@@ -91,6 +96,14 @@ class HeyselPage extends StatelessWidget {
 
                     // ================= SECTION ATOMIUM =================
                     _buildSectionHeader("2. L'ATOMIUM", Colors.amber.shade700),
+
+                    // --- IMAGES ATOMIUM AJOUTÉES ---
+                    _buildImageCard('assets/Atomium.jpg', "L'Atomium illuminé"),
+                    _buildImageCard('assets/Atomium_Style.html.jpg', "Architecture futuriste"),
+                    _buildImageCard('assets/dimitrisvetsikas1969-atomium-6915775_1920.jpg', "Détails des sphères"),
+                    _buildImageCard('assets/3345557-atomium-6826004_1920.jpg', "Le pied de l'Atomium"),
+                    const SizedBox(height: 10),
+
                     _buildHistoryBox(
                       "HISTOIRE : Construit pour l'Expo 58, il représente un cristal de fer agrandi 165 milliards de fois. Prévu pour durer 6 mois, il est devenu le symbole permanent de Bruxelles.",
                       Colors.amber,
@@ -128,7 +141,40 @@ class HeyselPage extends StatelessWidget {
     );
   }
 
-  // Header sombre qui ancre le design
+  // --- NOUVEAU WIDGET POUR LES IMAGES ---
+  Widget _buildImageCard(String assetPath, String label) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4))],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            Image.asset(assetPath, width: double.infinity, height: 200, fit: BoxFit.cover),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                ),
+              ),
+              child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // --- TOUS VOS WIDGETS ORIGINAUX CONSERVÉS À 100% ---
+
   Widget _buildDarkHeroHeader(bool isDark) {
     return Container(
       width: double.infinity,
@@ -140,7 +186,7 @@ class HeyselPage extends StatelessWidget {
           bottomRight: Radius.circular(40),
         ),
         gradient: LinearGradient(
-          colors: [Color(0xFF0F0F0F), Color(0xFF263238)], // Noir vers Gris-Bleu Heysel
+          colors: [Color(0xFF0F0F0F), Color(0xFF263238)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),

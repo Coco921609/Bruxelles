@@ -5,16 +5,12 @@ class PlacePoelaertPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Détection du mode (Sombre ou Clair)
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
-
-    // Couleurs de fond pour éviter le "tout blanc"
     final Color bgColor = isDark ? const Color(0xFF0F0F0F) : const Color(0xFFF2F2F7);
     final Color cardColor = isDark ? const Color(0xFF1A1A1A) : Colors.white;
 
     return Scaffold(
       backgroundColor: bgColor,
-      // L'AppBar est forcée en noir pour un look élégant en haut
       appBar: AppBar(
         title: const Text("Place Poelaert 🌅"),
         backgroundColor: const Color(0xFF0F0F0F),
@@ -27,13 +23,15 @@ class PlacePoelaertPage extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      // Active la sélection, la copie et la recherche web
       body: SelectionArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // --- HEADER SOMBRE (Fixe pour éviter l'éblouissement) ---
+              // --- IMAGE PANORAMIQUE R ---
+              _buildMainImage('assets/R.jpg'),
+
+              // --- HEADER SOMBRE ---
               _buildDarkHeroHeader(),
 
               Padding(
@@ -41,7 +39,6 @@ class PlacePoelaertPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // --- SECTION : LES COULEURS DU CIEL ---
                     _buildSectionTitle("Les Couleurs du Ciel 🎨", Icons.palette),
 
                     _buildSkySeasonCard(
@@ -57,7 +54,7 @@ class PlacePoelaertPage extends StatelessWidget {
                     _buildSkySeasonCard(
                       season: "Automne",
                       colorName: "Violet & Rouge Feu",
-                      desc: "Les plus beaux couchers de soleil. Le ciel prend des teintes dramatiques et rouges intenses.",
+                      desc: "Les plus beaux couchers de soleil. Le ciel prend des teintes dramatiques.",
                       gradientColors: [Colors.purpleAccent, Colors.redAccent],
                       icon: Icons.auto_awesome,
                       isDark: isDark,
@@ -67,7 +64,7 @@ class PlacePoelaertPage extends StatelessWidget {
                     _buildSkySeasonCard(
                       season: "Hiver",
                       colorName: "Bleu Glacé & Or",
-                      desc: "Le ciel est très pur et bleu clair, avec un soleil doré qui descend dès 16h30.",
+                      desc: "Ciel pur et soleil doré qui descend dès 16h30.",
                       gradientColors: [Colors.blueAccent, Colors.amberAccent],
                       icon: Icons.ac_unit,
                       isDark: isDark,
@@ -76,11 +73,10 @@ class PlacePoelaertPage extends StatelessWidget {
 
                     const SizedBox(height: 25),
 
-                    // --- SECTION VUE & PANORAMA ---
                     _buildSectionTitle("La Vue Panoramique 🔭", Icons.visibility),
                     _buildExperienceCard(
                       title: "Belvédère de Bruxelles",
-                      description: "Une vue imprenable sur les toits, la flèche de l'Hôtel de Ville et l'Atomium qui brille au loin.",
+                      description: "Vue imprenable sur les toits, la flèche de l'Hôtel de Ville et l'Atomium au loin.",
                       color: Colors.blueAccent,
                       icon: Icons.map,
                       isDark: isDark,
@@ -89,11 +85,10 @@ class PlacePoelaertPage extends StatelessWidget {
 
                     const SizedBox(height: 25),
 
-                    // --- QUE FAIRE AUX ALENTOURS ---
                     _buildSectionTitle("Aux alentours 🚶‍♂️", Icons.explore),
                     _buildInfoBox(
                       title: "L'Ascenseur des Marolles",
-                      desc: "Descendez gratuitement vers le quartier des antiquaires et l'ambiance populaire.",
+                      desc: "Descendez gratuitement vers le quartier des antiquaires.",
                       icon: Icons.elevator,
                       isDark: isDark,
                       cardColor: cardColor,
@@ -101,7 +96,7 @@ class PlacePoelaertPage extends StatelessWidget {
                     const SizedBox(height: 12),
                     _buildInfoBox(
                       title: "Palais de Justice",
-                      desc: "Juste derrière vous, le géant de pierre. Entrée gratuite en semaine.",
+                      desc: "Le géant de pierre juste derrière vous.",
                       icon: Icons.gavel,
                       isDark: isDark,
                       cardColor: cardColor,
@@ -118,36 +113,51 @@ class PlacePoelaertPage extends StatelessWidget {
     );
   }
 
-  // Header qui reste foncé même en mode clair
+  // Widget pour l'image principale
+  Widget _buildMainImage(String path) {
+    return Container(
+      width: double.infinity,
+      height: 220,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
+      ),
+      child: Image.asset(
+        path,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Container(
+          color: Colors.grey[900],
+          child: const Icon(Icons.broken_image, color: Colors.white24, size: 50),
+        ),
+      ),
+    );
+  }
+
   Widget _buildDarkHeroHeader() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
       decoration: const BoxDecoration(
         color: Color(0xFF0F0F0F),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(40),
-          bottomRight: Radius.circular(40),
-        ),
         gradient: LinearGradient(
-          colors: [Color(0xFF0F0F0F), Color(0xFF2C1A4D)], // Dégradé noir vers violet nuit
+          colors: [Color(0xFF0F0F0F), Color(0xFF2C1A4D)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
       ),
       child: Column(
         children: const [
-          Icon(Icons.wb_twilight, color: Colors.amber, size: 40),
-          SizedBox(height: 15),
+          Icon(Icons.wb_twilight, color: Colors.amber, size: 30),
+          SizedBox(height: 10),
           Text(
             "MOMENT PANORAMIQUE",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1.2),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1.2),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 8),
           Text(
             "Observez le changement de couleur du ciel au-dessus de la capitale.",
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+            style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
           ),
         ],
       ),
@@ -164,37 +174,36 @@ class PlacePoelaertPage extends StatelessWidget {
     required Color cardColor,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
+      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(1.2),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(colors: gradientColors.map((c) => c.withOpacity(0.4)).toList()),
+        borderRadius: BorderRadius.circular(15),
+        gradient: LinearGradient(colors: gradientColors.map((c) => c.withOpacity(0.3)).toList()),
       ),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: cardColor,
-          borderRadius: BorderRadius.circular(19),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: gradientColors),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: Colors.white, size: 22),
+              child: Icon(icon, color: Colors.white, size: 18),
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(season, style: TextStyle(fontSize: 11, color: isDark ? Colors.grey : Colors.grey.shade600, fontWeight: FontWeight.bold)),
-                  Text(colorName, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: gradientColors[0])),
-                  const SizedBox(height: 4),
-                  Text(desc, style: TextStyle(color: isDark ? Colors.white70 : const Color(0xFF444444), fontSize: 12, height: 1.3)),
+                  Text(season, style: TextStyle(fontSize: 10, color: isDark ? Colors.grey : Colors.grey.shade600, fontWeight: FontWeight.bold)),
+                  Text(colorName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: gradientColors[0])),
+                  Text(desc, style: TextStyle(color: isDark ? Colors.white70 : const Color(0xFF444444), fontSize: 11, height: 1.3)),
                 ],
               ),
             ),
@@ -206,11 +215,11 @@ class PlacePoelaertPage extends StatelessWidget {
 
   Widget _buildSectionTitle(String title, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(children: [
-        Icon(icon, color: Colors.amber.shade700, size: 20),
+        Icon(icon, color: Colors.amber.shade700, size: 18),
         const SizedBox(width: 10),
-        Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.amber.shade800))
+        Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.amber.shade800))
       ]),
     );
   }
@@ -224,19 +233,18 @@ class PlacePoelaertPage extends StatelessWidget {
     required Color cardColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.04)),
-          boxShadow: isDark ? [] : [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)]
+        color: cardColor,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.04)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [Icon(icon, color: color, size: 22), const SizedBox(width: 10), Text(title, style: TextStyle(color: color, fontWeight: FontWeight.bold))]),
-          const SizedBox(height: 10),
-          Text(description, style: TextStyle(color: isDark ? Colors.white70 : const Color(0xFF444444), fontSize: 13, height: 1.4)),
+          Row(children: [Icon(icon, color: color, size: 20), const SizedBox(width: 10), Text(title, style: TextStyle(color: color, fontWeight: FontWeight.bold))]),
+          const SizedBox(height: 8),
+          Text(description, style: TextStyle(color: isDark ? Colors.white70 : const Color(0xFF444444), fontSize: 12, height: 1.4)),
         ],
       ),
     );
@@ -250,21 +258,20 @@ class PlacePoelaertPage extends StatelessWidget {
     required Color cardColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.04)),
-          boxShadow: isDark ? [] : [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 5)]
+        color: cardColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.04)),
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.amber.shade700, size: 20),
-          const SizedBox(width: 15),
+          Icon(icon, color: Colors.amber.shade700, size: 18),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isDark ? Colors.white : Colors.black87)),
-              Text(desc, style: TextStyle(color: isDark ? Colors.grey : Colors.grey.shade600, fontSize: 12)),
+              Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: isDark ? Colors.white : Colors.black87)),
+              Text(desc, style: TextStyle(color: isDark ? Colors.grey : Colors.grey.shade600, fontSize: 11)),
             ]),
           ),
         ],
